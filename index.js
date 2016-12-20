@@ -1,7 +1,4 @@
 #!/usr/bin/env node
-
-require('dotenv').config();
-
 const AWS = require('aws-sdk');
 const inquirer = require('inquirer');
 const ui = new inquirer.ui.BottomBar();
