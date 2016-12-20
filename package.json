@@ -1,0 +1,14 @@
+{
+  "name": "cdm",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "aws-sdk": "^2.7.8",
+    "dotenv": "^2.0.0",
+    "inquirer": "^2.0.0"
+  },
+  "bin": {
+    "cdm": "./index.js"
+  }
+}
