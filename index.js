@@ -9,7 +9,7 @@ inquirer.prompt([
         type: 'list',
         name: 'action',
         message: 'What would you like to do?',
-        choices: ['Enable', 'Disable', 'Delete']
+        choices: ['List', 'Enable', 'Disable', 'Delete']
     },
     {
         type: 'checkbox',
@@ -34,15 +34,15 @@ inquirer.prompt([
         }
     }
 ]).then(({distribution, action}) => {
+    if(action === 'List') return;
+
     const updates = distribution.map(id => {
         return getDistributionConfig(id)
-            .then((distribution) =>
-                updateDistribution(id, action === 'Delete' ? 'Disable' : action, distribution)
-            ).then((updateResult) => {
+            .then((distribution) => {
                 if(action === 'Delete') {
-                    return deleteDistribution(id, updateResult);
+                    return deleteDistribution(id, distribution);
                 } else {
-                    return Promise.resolve(updateResult);
+                    return updateDistribution(id, action, distribution);
                 }
             });
     })
@@ -84,15 +84,15 @@ const updateDistribution = (id, action, distribution) => {
     });
 };
 
-const deleteDistribution = (id, updateResult) => {
+const deleteDistribution = (id, distribution) => {
     return new Promise((resolve, reject) => {
         console.log(`Attempting to delete distribution: ${id}`);
         cloudfront.deleteDistribution({
             Id: id,
-            IfMatch: updateResult.ETag
+            IfMatch: distribution.ETag
         }, (err, data) => {
             if(err) return reject(err);
-            resolve(data);
+            resolve({Distribution: {Id: id}});
         });
     });
 }
