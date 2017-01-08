@@ -24,7 +24,7 @@ inquirer.prompt([
 
                     resolve(data.DistributionList.Items.map(distribution => {
                         return {
-                            name: `${distribution.Id} - ${distribution.DomainName} - ${distribution.Origins.Items[0].Id} - ${distribution.Enabled ? 'Enabled' : 'Disabled'}`,
+                            name: `${distribution.Id} - ${distribution.DomainName} - ${distribution.Origins.Items[0].Id} - ${distribution.Origins.Items[0].OriginPath} - ${distribution.Enabled ? 'Enabled' : 'Disabled'}`,
                             short: distribution.Id,
                             value: distribution.Id
                         };
